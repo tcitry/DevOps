@@ -25,6 +25,8 @@ services:
     environment:
       - SENTRY_SECRET_KEY: $SENTRY_SECRET_KEY
     restart: unless-stopped
+    ports:
+      - "9000:9000"
 
   sentry-cron:
     <<: *sentry
