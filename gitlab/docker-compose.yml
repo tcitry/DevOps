@@ -1,14 +1,43 @@
 version: "3"
 
 services:
+
+    postgres:
+        image: postgres:10.4
+        networks:
+            - gitlab-net
+        hostname: postgres
+        environment:
+            - POSTGRES_PASSWORD=gitlab
+            - POSTGRES_USER=gitlab
+        restart: unless-stopped
+        volumes:
+            - "/data/gitlab/postgres:/var/lib/postgres/data"
+
+    redis:
+        image: redis
+        networks:
+            - gitlab-net
+        hostname: redis
+        volumes:
+            - "/data/gitlab/redis:/data"
+
     gitlab:
         image: gitlab/gitlab-ce:latest
+        networks:
+            - gitlab-net
         volumes:
             - "/data/gitlab/config:/etc/gitlab"
             - "/data/gitlab/logs:/var/log/gitlab"
             - "/data/gitlab/data:/var/opt/gitlab"
         restart: always
-        expose:
-            - "443"
-            - "22"
-            - "80"
+        hostname: gitlab.my.com
+        ports:
+            - "9022:22"
+            - "9080:80"
+        depends_on:
+            - postgres
+            - redis
+
+networks:
+    gitlab-net:
