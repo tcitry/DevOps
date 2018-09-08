@@ -4,7 +4,8 @@ services:
 
   sentry-postgres:
     image: postgres:10.4
-    networks: sentry-net
+    networks:
+      - sentry-net
     hostname: postgres
     environment:
       - POSTGRES_PASSWORD: 123456
@@ -13,13 +14,15 @@ services:
 
   sentry-redis:
     image: redis
-    networks: sentry-net
+    networks:
+      - sentry-net
     hostname: redis
     restart: unless-stopped
 
   sentry: &sentry
     image: sentry:9.0.0
-    networks: sentry-net
+    networks:
+      - sentry-net
     volumes:
       - "/data/sentry/files:/var/lib/sentry/files"
     environment:
