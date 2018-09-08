@@ -34,8 +34,8 @@ services:
       - postgres
       - redis
     external_links:
-      - "redis:redis"
-      - "postgres:postgres"
+      - "sentry_redis_1:redis"
+      - "sentry_postgres_1:postgres"
     networks:
       - sentry_net
 
@@ -46,8 +46,8 @@ services:
     command: run cron
     restart: unless-stopped
     external_links:
-      - "redis:redis"
-      - "postgres:postgres"
+      - "sentry_redis_1:redis"
+      - "sentry_postgres_1:postgres"
     networks:
       - sentry_net
 
@@ -58,8 +58,8 @@ services:
       - sentry_web
     restart: always
     external_links:
-      - "redis:redis"
-      - "postgres:postgres"
+      - "sentry_redis_1:redis"
+      - "sentry_postgres_1:postgres"
     networks:
       - sentry_net
 
