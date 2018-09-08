@@ -41,7 +41,7 @@ services:
   cron:
     image: sentry
     depends_on:
-      - sentry
+      - sentry_web
     networks:
       - sentry-net
     command: run cron
@@ -53,7 +53,7 @@ services:
     networks:
       - sentry-net
     depends_on:
-      - sentry
+      - sentry_web
     restart: always
 
 networks:
