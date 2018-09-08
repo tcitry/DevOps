@@ -8,8 +8,8 @@ services:
       - sentry-net
     hostname: postgres
     environment:
-      - POSTGRES_PASSWORD: 123456
-      - POSTGRES_USER: sentry
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_USER=sentry
     restart: unless-stopped
 
   sentry-redis:
@@ -26,7 +26,7 @@ services:
     volumes:
       - "/data/sentry/files:/var/lib/sentry/files"
     environment:
-      - SENTRY_SECRET_KEY: $SENTRY_SECRET_KEY
+      - SENTRY_SECRET_KEY=$SENTRY_SECRET_KEY
     restart: unless-stopped
     ports:
       - "9000:9000"
