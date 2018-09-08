@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+
+  sentry-postgres:
+    image: postgres:10.4
+    networks: sentry-net
+    hostname: postgres
+    environment:
+      - POSTGRES_PASSWORD: 123456
+      - POSTGRES_USER: sentry
+    restart: unless-stopped
+
+  sentry-redis:
+    image: redis
+    networks: sentry-net
+    hostname: redis
+    restart: unless-stopped
+
+  sentry: &sentry
+    image: sentry:9.0.0
+    networks: sentry-net
+    volumes:
+      - "/data/sentry/files:/var/lib/sentry/files"
+    environment:
+      - SENTRY_SECRET_KEY: $SENTRY_SECRET_KEY
+    restart: unless-stopped
+
+  sentry-cron:
+    <<: *sentry
+    command: run cron
+
+  sentry-worker-1:
+    <<: *sentry
+    command: run worker
+
+networks:
+  sentry-net:
