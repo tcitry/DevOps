@@ -4,9 +4,6 @@ services:
 
   postgres:
     image: postgres:10.4
-    networks:
-      - sentry-net
-    hostname: postgres
     environment:
       - POSTGRES_PASSWORD=sentry
       - POSTGRES_USER=sentry
@@ -16,17 +13,12 @@ services:
 
   redis:
     image: redis
-    networks:
-      - sentry-net
-    hostname: redis
     restart: unless-stopped
     volumes:
         - "/data/sentry/redis:/data"
 
   sentry_web:
     image: sentry
-    networks:
-      - sentry-net
     volumes:
       - "/data/sentry/files:/var/lib/sentry/files"
     environment:
@@ -37,24 +29,26 @@ services:
     depends_on:
       - postgres
       - redis
+    external_links:
+      - "redis:redis"
+      - "postgres:postgres"
 
   cron:
     image: sentry
     depends_on:
       - sentry_web
-    networks:
-      - sentry-net
     command: run cron
     restart: unless-stopped
+    external_links:
+      - "redis:redis"
+      - "postgres:postgres"
 
   worker-1:
     image: sentry
     command: run worker
-    networks:
-      - sentry-net
     depends_on:
       - sentry_web
     restart: always
-
-networks:
-  sentry-net:
+    external_links:
+      - "redis:redis"
+      - "postgres:postgres"
