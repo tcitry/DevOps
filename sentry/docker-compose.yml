@@ -47,7 +47,16 @@ services:
     command: run cron
     restart: unless-stopped
 
-  worker-1:
+  worker:
+    image: sentry
+    command: run worker
+    networks:
+      - sentry-net
+    depends_on:
+      - sentry
+    restart: always
+
+  worker:
     image: sentry
     command: run worker
     networks:
