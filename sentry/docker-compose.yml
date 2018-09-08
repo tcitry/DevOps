@@ -10,16 +10,12 @@ services:
     restart: unless-stopped
     volumes:
       - "/data/sentry/postgres:/var/lib/postgresql/data"
-    networks:
-      - sentry_net
 
   redis:
     image: redis
     restart: unless-stopped
     volumes:
       - "/data/sentry/redis:/data"
-    networks:
-      - sentry_net
 
   sentry_web:
     image: sentry
@@ -33,11 +29,9 @@ services:
     depends_on:
       - postgres
       - redis
-    external_links:
-      - "sentry_redis_1:redis"
-      - "sentry_postgres_1:postgres"
-    networks:
-      - sentry_net
+    links:
+      - "redis:redis"
+      - "postgres:postgres"
 
   cron:
     image: sentry
@@ -45,11 +39,9 @@ services:
       - sentry_web
     command: run cron
     restart: unless-stopped
-    external_links:
-      - "sentry_redis_1:redis"
-      - "sentry_postgres_1:postgres"
-    networks:
-      - sentry_net
+    links:
+      - "redis:redis"
+      - "postgres:postgres"
 
   worker-1:
     image: sentry
@@ -57,11 +49,7 @@ services:
     depends_on:
       - sentry_web
     restart: always
-    external_links:
-      - "sentry_redis_1:redis"
-      - "sentry_postgres_1:postgres"
-    networks:
-      - sentry_net
+    links:
+      - "redis:redis"
+      - "postgres:postgres"
 
-networks:
-  sentry_net:
