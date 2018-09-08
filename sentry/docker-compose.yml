@@ -2,25 +2,25 @@ version: "3"
 
 services:
 
-  sentry-postgres:
+  postgres:
     image: postgres:10.4
     networks:
       - sentry-net
     hostname: postgres
     environment:
-      - POSTGRES_PASSWORD=123456
+      - POSTGRES_PASSWORD=sentry
       - POSTGRES_USER=sentry
     restart: unless-stopped
 
-  sentry-redis:
+  redis:
     image: redis
     networks:
       - sentry-net
     hostname: redis
     restart: unless-stopped
 
-  sentry: &sentry
-    image: sentry:9.0.0
+  sentry:
+    image: sentry
     networks:
       - sentry-net
     volumes:
@@ -31,13 +31,23 @@ services:
     ports:
       - "9000:9000"
 
-  sentry-cron:
-    <<: *sentry
+  cron:
+    image: sentry
+    depends_on:
+      - sentry
+    networks:
+      - sentry-net
     command: run cron
+    restart: unless-stopped
 
-  sentry-worker-1:
-    <<: *sentry
+  worker-1:
+    image: sentry
     command: run worker
+    networks:
+      - sentry-net
+    depends_on:
+      - sentry
+    restart: always
 
 networks:
   sentry-net:
