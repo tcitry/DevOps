@@ -17,23 +17,6 @@ services:
     volumes:
       - "/data/sentry/redis:/data"
 
-  sentry_upgrade:
-    image: sentry
-    environment:
-      - SENTRY_SECRET_KEY=$SENTRY_SECRET_KEY
-      - SENTRY_POSTGRES_HOST=postgres
-      - SENTRY_DB_USER=sentry
-      - SENTRY_DB_PASSWORD=sentry
-      - SENTRY_REDIS_HOST=redis
-    restart: "no"
-    depends_on:
-      - postgres
-      - redis
-    links:
-      - "redis:redis"
-      - "postgres:postgres"
-    command: upgrade
-
   sentry_web:
     image: sentry
     volumes:
@@ -48,7 +31,8 @@ services:
     ports:
       - "9000:9000"
     depends_on:
-      - sentry_upgrade
+      - redis
+      - postgres
     links:
       - "redis:redis"
       - "postgres:postgres"
