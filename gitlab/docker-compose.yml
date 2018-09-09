@@ -17,7 +17,7 @@ services:
         volumes:
             - "/data/gitlab/redis:/data"
 
-    gitlab:
+    web:
         image: gitlab/gitlab-ce:latest
         volumes:
             - "/data/gitlab/config:/etc/gitlab"
@@ -36,4 +36,14 @@ services:
             - "redis:redis"
         environment:
             GITLAB_OMNIBUS_CONFIG: |
-                external_url 'https://gitlab.yindongliang.com'
+                external_url 'http://gitlab.test.com'
+
+    runner:
+        image: gitlab/gitlab-runner:latest
+        restart: always
+        volumes:
+            - /srv/gitlab-runner/config:/etc/gitlab-runner
+            - /var/run/docker.sock:/var/run/docker.sock
+        depends_on:
+            - gitlab
+
