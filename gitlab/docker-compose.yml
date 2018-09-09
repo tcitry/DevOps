@@ -25,9 +25,9 @@ services:
             - "/data/gitlab/data:/var/opt/gitlab"
         restart: unless-stopped
         ports:
-            - "8022:22"
-            - "8080:80"
-            - "8443:443"
+            - "9022:22"
+            - "9080:80"
+            - "9443:443"
         depends_on:
             - postgres
             - redis
