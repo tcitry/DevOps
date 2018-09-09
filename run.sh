@@ -1,5 +1,4 @@
-docker-compose -f httpbin/docker-compose.yml up -d --remove-orphans
-docker-compose -f gitlab/docker-compose.yml up -d --remove-orphans
-cp sentry/.env.example sentry/.env
-docker-compose -f sentry/docker-compose.yml up -d --remove-orphans
+cd httpbin;docker-compose up -d --remove-orphans;cd ..
+cd gitlab;docker-compose up -d --remove-orphans;cd ..
+cd sentry;cp sentry/.env.example sentry/.env;docker-compose up -d --remove-orphans;cd ..
 sudo nginx -s reload
