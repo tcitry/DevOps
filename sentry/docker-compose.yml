@@ -40,7 +40,7 @@ services:
   cron:
     image: sentry
     depends_on:
-      - sentry_web
+      - web
     command: run cron
     restart: unless-stopped
     links:
@@ -57,7 +57,7 @@ services:
     image: sentry
     command: run worker
     depends_on:
-      - sentry_web
+      - web
     restart: always
     links:
       - "redis:redis"
