@@ -25,8 +25,8 @@ services:
             - "/data/gitlab/data:/var/opt/gitlab"
         restart: unless-stopped
         ports:
-            - "9022:22"
-            - "9080:80"
+            - "8022:22"
+            - "8080:80"
         depends_on:
             - postgres
             - redis
@@ -35,4 +35,4 @@ services:
             - "redis:redis"
         environment:
             GITLAB_OMNIBUS_CONFIG: |
-                external_url 'http://gitlab.my.com'
+                external_url 'http://gitlab.test.com'
