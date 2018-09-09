@@ -3,7 +3,7 @@ version: "3"
 services:
     httpbin:
         container_name: httpbin
-        images: kennethreitz/httpbin:latest
+        image: kennethreitz/httpbin:latest
         restart: always
         ports:
             - "8000:80"
