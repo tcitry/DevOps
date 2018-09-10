@@ -36,7 +36,7 @@ services:
             - "redis:redis"
         environment:
             GITLAB_OMNIBUS_CONFIG: |
-                external_url 'http://gitlab.test.com'
+                external_url $EXTERNAL_URL
 
     runner:
         image: gitlab/gitlab-runner:latest
