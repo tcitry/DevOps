@@ -36,12 +36,12 @@ services:
             - "redis:redis"
         environment:
             GITLAB_OMNIBUS_CONFIG: |
-                external_url "http://gitlab.test.com";
+                external_url $EXTERNAL_URL;
                 gitlab_rails['smtp_enable'] = true;
                 gitlab_rails['smtp_address'] = "smtp.exmail.qq.com";
                 gitlab_rails['smtp_port'] = 465;
                 gitlab_rails['smtp_user_name'] = "gitlab@yindongliang.com";
-                gitlab_rails['smtp_password'] = "password";
+                gitlab_rails['smtp_password'] = $SMTP_PASSWORD;
                 gitlab_rails['smtp_authentication'] = "login";
                 gitlab_rails['smtp_enable_starttls_auto'] = true;
                 gitlab_rails['smtp_tls'] = true;
