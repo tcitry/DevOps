@@ -47,3 +47,12 @@ services:
                 gitlab_rails['smtp_tls'] = true;
                 gitlab_rails['gitlab_email_from'] = 'gitlab@yindongliang.com';
                 gitlab_rails['smtp_domain'] = "exmail.qq.com";
+
+    runner:
+        image: gitlab/gitlab-runner:latest
+        restart: always
+        volumes:
+            - /data/gitlab-runner/config:/etc/gitlab-runner
+            - /var/run/docker.sock:/var/run/docker.sock
+        depends_on:
+            - web
