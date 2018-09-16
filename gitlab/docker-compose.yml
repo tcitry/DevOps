@@ -37,13 +37,3 @@ services:
         environment:
             GITLAB_OMNIBUS_CONFIG: |
                 external_url $EXTERNAL_URL
-
-    runner:
-        image: gitlab/gitlab-runner:latest
-        restart: always
-        volumes:
-            - /srv/gitlab-runner/config:/etc/gitlab-runner
-            - /var/run/docker.sock:/var/run/docker.sock
-        depends_on:
-            - web
-
