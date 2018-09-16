@@ -62,7 +62,7 @@ services:
     command: run worker
     depends_on:
       - web
-    restart: always
+    restart: unless-stopped
     env_file:
       - '.env'
     links:
