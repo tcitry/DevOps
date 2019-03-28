@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+    hub:
+        container_name: hub-server-instance
+        image: jetbrains/hub:2018.4.11214
+        restart: always
+        ports:
+            - "8080:8080"
+        volumes:
+            - /data/jetbrains/hub/data:/opt/hub/data
+            - /data/jetbrains/hub/conf:/opt/hub/conf
+            - /data/jetbrains/hub/logs:/opt/hub/logs
+            - /data/jetbrains/hub/backups:/opt/hub/backups
+    teamcity:
+        container_name: teamcity-server-instance
+        image: jetbrains/teamcity-server:2018.2.3
+        restart: always
+        ports:
+            - "8081:8111"
+        volumes:
+            - /data/jetbrains/teamcity_server/datadir:/data/teamcity_server/datadir
+            - /data/jetbrains/teamcity_server/logs:/opt/teamcity/logs
+    upsource:
+        container_name: upsource-server-instance
+        image: jetbrains/upsource:2018.2.1154
+        restart: always
+        ports:
+            - "8082:8080"
+        volumes:
+            - /data/jetbrains/upsource/data:/opt/upsource/data
+            - /data/jetbrains/upsource/conf:/opt/upsource/conf
+            - /data/jetbrains/upsource/logs:/opt/upsource/logs
+            - /data/jetbrains/upsource/backups:/opt/upsource/backups
+    youtrack:
+        container_name: youtrack-server-instance
+        image: jetbrains/youtrack:2019.1.50730
+        restart: always
+        ports:
+            - "8083:8080"
+        volumes:
+            - /data/jetbrains/youtrack/data:/opt/youtrack/data
+            - /data/jetbrains/youtrack/conf:/opt/youtrack/conf
+            - /data/jetbrains/youtrack/logs:/opt/youtrack/logs
+            - /data/jetbrains/youtrack/backups:/opt/youtrack/backups
